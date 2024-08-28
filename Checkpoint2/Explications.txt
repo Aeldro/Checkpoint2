@@ -1,0 +1,8 @@
+﻿Properties : Contient les fichiers de configuration du projets et permet la gestion des métadonnées de celui-ci. Elle permet le bon fonctionnement du compilateur et l'exécution de l'application.
+wwwRoot : Ce dossier permet de stocker des fichiers externes tels que des fichiers Javascript, CSS ou des images.
+Models : Ce dossier contient les fichiers cs représentant les modèles de données du projet.
+Views : Ce dossier contient les fichier cshtml qui représentent la partie rendue qui sera affichée pour l'utilisateur.
+Controllers : Ce dossier contient les fichiers cs permettant de récupérer et traiter les requêtes envoyées par l'utilisateur.
+
+appsettings.json : C'est un fichier de configuration qui stocke des les paramètres de l'application sous forme de paires clés-valeurs.
+Program.cs : Est le point d'entrée du programme. C'est la fichier qui est lu en premier et qui fait appel au reste de l'application.
