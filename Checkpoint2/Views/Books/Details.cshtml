@@ -1,0 +1,36 @@
+﻿@using Checkpoint2.Models.Entities
+@model Book
+
+<div class="card">
+    @if (Model.CoverImage != string.Empty)
+    {
+        <img src="..." class="card-img-top book-img" alt="...">
+    }
+    else
+    {
+        <img src="~/images/Book.jpg" class="card-img-top book-img" alt="Image d'un livre">
+    }
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        @if (Model.Author is not null)
+        {
+            <p class="card-text">de @Model.Author.Name</p>
+        }
+        else
+        {
+            <p class="card-text">Auteur inconnu</p>
+        }
+    </div>
+    <ul class="list-group list-group-flush">
+        @if (Model.Category is not null)
+        {
+            <li class="list-group-item">@Model.Category.Name</li>
+        }
+        <li class="list-group-item">ISBN : @Model.ISBN</li>
+        <li class="list-group-item">@Model.Price€</li>
+    </ul>
+    <div class="card-body">
+        <li class="list-group-item">Synopsis : @Model.Description</li>
+    </div>
+</div>

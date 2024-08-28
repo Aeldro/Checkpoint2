@@ -15,7 +15,34 @@ namespace Checkpoint2.Repositories
             _context = context;
         }
 
-        async Task<List<Book>> IBooksRepository.GetAllBooksAsync()
+        public async Task<Book> GetBookByIdAsync(int bookId)
+        {
+            try
+            {
+                Book? book = await _context.Books.FindAsync(bookId);
+                if (book == null) throw new NullException();
+                return book;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DatabaseException();
+            }
+        }
+
+        public async Task<List<Book>> GetBooksAsync(string searchedString)
+        {
+            try
+            {
+                List<Book> books = await _context.Books.Where(el => el.Title.Contains(searchedString)).Include(el => el.Author).Include(el => el.Category).ToListAsync();
+                return books;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DatabaseException();
+            }
+        }
+
+        public async Task<List<Book>> GetAllBooksAsync()
         {
             try
             {

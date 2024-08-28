@@ -1,0 +1,7 @@
+﻿.book-img {
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
