@@ -1,0 +1,31 @@
+﻿@using Checkpoint2.Models.Entities
+@model List<Checkpoint2.Models.Entities.Book>
+
+@if (Model.Count > 0)
+{
+    <div class="container text-center">
+        <h5>Liste des livres :</h5>
+        <div class="row row-cols-3">
+            <div class="col">Titre</div>
+            <div class="col">Auteur</div>
+            <div class="col">Prix</div>
+            @foreach (Book book in Model)
+            {
+                <div class="col">@book.Title</div>
+                @if (book.Author is not null)
+                {
+                    <div class="col">@book.Author.Name</div>
+                }
+                else
+                {
+                    <div class="col">Auteur inconnu</div>
+                }
+                <div class="col">@book.Price</div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <h5>La base de données ne contient aucun livre.</h5>
+}
