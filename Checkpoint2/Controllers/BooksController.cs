@@ -15,22 +15,6 @@ namespace Checkpoint2.Controllers
             _booksRepository = booksRepository;
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    try
-        //    {
-        //        List<Book> books = await _booksRepository.GetAllBooksAsync();
-        //        return View(books);
-        //    }
-        //    catch (DatabaseException ex)
-        //    {
-        //        return RedirectToAction(actionName: "Exception", controllerName: "Home", new
-        //        {
-        //            message = ex.Message
-        //        });
-        //    }
-        //}
-
         public async Task<IActionResult> Index(string searchedString)
         {
             try

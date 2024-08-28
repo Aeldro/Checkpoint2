@@ -10,6 +10,7 @@
                 <th scope="col">Titre</th>
                 <th scope="col">Auteur</th>
                 <th scope="col">Prix</th>
+                <th scope="col">Acheter</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,11 @@
                         <td>Auteur inconnu</td>
                     }
                     <td>@book.Price</td>
+                    <td>
+                        <form method="post" action="@Url.Action("AddToCart", "Cart", new { bookId = book.Id })">
+                            <button type="submit" class="btn btn-primary">Ajouter au panier</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

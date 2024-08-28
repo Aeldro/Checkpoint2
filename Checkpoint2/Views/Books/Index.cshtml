@@ -1,13 +1,14 @@
 ﻿@using Checkpoint2.Models.Entities
 @model List<Checkpoint2.Models.Entities.Book>
 
+    <h1>Livres disponibles</h1>
 <form id="searchForm" class="form-inline">
     <label for="searchInput">Rechercher un livre</label>
     <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchedString">
 </form>
 
 <div id="searchResults">
-    @await Html.PartialAsync("_SearchResults", Model) <!-- Afficher initialement tous les livres -->
+    @await Html.PartialAsync("_SearchResults", Model)
 </div>
 
 @section Scripts {

@@ -1,0 +1,48 @@
+﻿@using Checkpoint2.Models.Entities
+@model List<Checkpoint2.Models.Entities.CartArticle>
+
+<h1>Mon panier</h1>
+@if (Model.Count > 0)
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Livre</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Retirer du panier</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CartArticle article in Model)
+            {
+                <tr>
+                    <td><a class="material-symbols-outlined" style="cursor: pointer; text-decoration: none;" href="@Url.Action("Details", "Books", new { bookId = article.Book.Id })">visibility</a></td>
+                    <td>@article.Book.Title</td>
+                    <td>
+                        <input class="form-control" type="number" asp-for="@article.Quantity" placeholder="Quantité" required />
+                    </td>
+                    <td>@(article.Quantity * article.Book.Price)€</td>
+                    <td>
+                        <form method="post" action="@Url.Action("RemoveFromCart", "Cart", new { articleId = article.Id })">
+                            <button type="submit" class="btn btn-danger material-symbols-outlined">close</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align: right;">Total</th>
+                <th>
+                    @Html.Raw(Model.Sum(article => article.Quantity * article.Book.Price).ToString("F2") + "€")
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <h5>Votre panier est vide.</h5>
+}

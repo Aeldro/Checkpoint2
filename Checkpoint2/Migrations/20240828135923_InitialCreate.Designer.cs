@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Checkpoint2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240828102953_InitialCreate")]
+    [Migration("20240828135923_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -250,6 +250,36 @@ namespace Checkpoint2.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Checkpoint2.Models.Entities.CartArticle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("CartArticles");
+                });
+
             modelBuilder.Entity("Checkpoint2.Models.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -436,6 +466,21 @@ namespace Checkpoint2.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Checkpoint2.Models.Entities.CartArticle", b =>
+                {
+                    b.HasOne("Checkpoint2.Areas.Identity.Data.ApplicationUser", null)
+                        .WithMany("Cart")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Checkpoint2.Models.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -485,6 +530,11 @@ namespace Checkpoint2.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Checkpoint2.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

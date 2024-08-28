@@ -25,6 +25,7 @@ namespace Checkpoint2
             builder.Services.AddScoped<IBooksRepository, BooksRepository>();
             builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
             builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
 
             var app = builder.Build();
 
