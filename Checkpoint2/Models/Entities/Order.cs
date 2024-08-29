@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Checkpoint2.Models.Entities
 {
-    public class CartArticle
+    public class Order
     {
         [Required]
         public int Id { get; set; }
@@ -11,12 +11,9 @@ namespace Checkpoint2.Models.Entities
         [Required]
         public string ApplicationUserId { get; set; }
         public ApplicationUser Payer { get; set; }
+        public List<BuyedArticle> Articles { get; set; } = new List<BuyedArticle>();
 
         [Required]
-        public int BookId { get; set; }
-        public Book Book { get; set; }
-
-        [Required]
-        public int Quantity { get; set; }
+        public DateTime Date { get; set; }
     }
 }

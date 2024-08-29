@@ -1,4 +1,4 @@
-﻿@using Checkpoint2.Models.Entities
+﻿﻿@using Checkpoint2.Models.Entities
 @model List<Checkpoint2.Models.Entities.CartArticle>
 
 <h1>Mon panier</h1>
@@ -10,7 +10,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Livre</th>
                 <th scope="col">Quantité</th>
-                <th scope="col">Prix</th>
+                <th scope="col">Prix unitaire</th>
+                <th scope="col">Prix total</th>
                 <th scope="col">Retirer du panier</th>
             </tr>
         </thead>
@@ -21,8 +22,9 @@
                     <td><a class="material-symbols-outlined" style="cursor: pointer; text-decoration: none;" href="@Url.Action("Details", "Books", new { bookId = article.Book.Id })">visibility</a></td>
                     <td>@article.Book.Title</td>
                     <td>
-                        <input class="form-control" type="number" asp-for="@article.Quantity" placeholder="Quantité" required />
+                        <input class="form-control quantity-input" type="number" data-article-id="@article.Id" value="@article.Quantity" placeholder="Quantité" min="0" required />
                     </td>
+                    <td>@article.Book.Price€</td>
                     <td>@(article.Quantity * article.Book.Price)€</td>
                     <td>
                         <form method="post" action="@Url.Action("RemoveFromCart", "Cart", new { articleId = article.Id })">
@@ -34,9 +36,14 @@
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="3" style="text-align: right;">Total</th>
+                <th colspan="4" style="text-align: right;">Total</th>
                 <th>
                     @Html.Raw(Model.Sum(article => article.Quantity * article.Book.Price).ToString("F2") + "€")
+                </th>
+                <th>
+                    <form method="get" action="@Url.Action("Checkout", "Cart")">
+                        <button type="submit" class="btn btn-warning">Passer la commande</button>
+                    </form>
                 </th>
             </tr>
         </tfoot>
@@ -46,3 +53,29 @@ else
 {
     <h5>Votre panier est vide.</h5>
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.quantity-input').on('change', function () {
+            var articleId = $(this).data('article-id');
+            var quantity = $(this).val();
+
+            $.ajax({
+                url: '@Url.Action("UpdateQuantity", "Cart")',
+                type: 'POST',
+                data: {
+                    articleId: articleId,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    console.log('Quantité mise à jour avec succès.');
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Erreur lors de la mise à jour de la quantité :', error);
+                }
+            });
+        });
+    });
+</script>

@@ -1,8 +1,13 @@
-﻿namespace Checkpoint2.Models.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Checkpoint2.Models.Entities
 {
     public class Book
     {
+        [Required]
         public int Id { get; set; }
+
+        [Required]
         public string Title { get; set; } = string.Empty;
         public int? AuthorId { get; set; } = null;
         public Author? Author { get; set; }

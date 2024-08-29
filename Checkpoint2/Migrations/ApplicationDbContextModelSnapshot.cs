@@ -247,6 +247,38 @@ namespace Checkpoint2.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Checkpoint2.Models.Entities.BuyedArticle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("BuyedArticles");
+                });
+
             modelBuilder.Entity("Checkpoint2.Models.Entities.CartArticle", b =>
                 {
                     b.Property<int>("Id")
@@ -256,6 +288,7 @@ namespace Checkpoint2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ApplicationUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BookId")
@@ -263,10 +296,6 @@ namespace Checkpoint2.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -309,6 +338,28 @@ namespace Checkpoint2.Migrations
                             Id = 3,
                             Name = "Horreur"
                         });
+                });
+
+            modelBuilder.Entity("Checkpoint2.Models.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -463,11 +514,40 @@ namespace Checkpoint2.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Checkpoint2.Models.Entities.BuyedArticle", b =>
+                {
+                    b.HasOne("Checkpoint2.Areas.Identity.Data.ApplicationUser", "Payer")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Checkpoint2.Models.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Checkpoint2.Models.Entities.Order", "Order")
+                        .WithMany("Articles")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Payer");
+                });
+
             modelBuilder.Entity("Checkpoint2.Models.Entities.CartArticle", b =>
                 {
-                    b.HasOne("Checkpoint2.Areas.Identity.Data.ApplicationUser", null)
+                    b.HasOne("Checkpoint2.Areas.Identity.Data.ApplicationUser", "Payer")
                         .WithMany("Cart")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Checkpoint2.Models.Entities.Book", "Book")
                         .WithMany()
@@ -476,6 +556,19 @@ namespace Checkpoint2.Migrations
                         .IsRequired();
 
                     b.Navigation("Book");
+
+                    b.Navigation("Payer");
+                });
+
+            modelBuilder.Entity("Checkpoint2.Models.Entities.Order", b =>
+                {
+                    b.HasOne("Checkpoint2.Areas.Identity.Data.ApplicationUser", "Payer")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -532,6 +625,11 @@ namespace Checkpoint2.Migrations
             modelBuilder.Entity("Checkpoint2.Areas.Identity.Data.ApplicationUser", b =>
                 {
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("Checkpoint2.Models.Entities.Order", b =>
+                {
+                    b.Navigation("Articles");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,5 +8,8 @@ namespace Checkpoint2.Repositories
         Task<CartArticle> GetArticleByIdAsync(int articleId);
         Task AddArticleAsync(CartArticle newArticle);
         Task RemoveArticleAsync(CartArticle articleToDelete);
+        Task UpdateQuantityArticleAsync(int articleId, int quantity);
+        Task RemoveArticleByUserId(string userId);
+        Task TransferArticlesByUserId(string userId);
     }
 }

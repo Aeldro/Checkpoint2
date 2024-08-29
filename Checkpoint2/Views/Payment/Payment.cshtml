@@ -1,0 +1,35 @@
+﻿@model Checkpoint2.Models.CreditCardModel
+
+<h1>Carte bleue à débiter</h1>
+
+@using (Html.BeginForm("ProcessPayment", "Payment", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.CardNumber, "Numéro de la carte")
+        @Html.TextBoxFor(m => m.CardNumber, new { @class = "form-control", type = "tel", id = "cardnumber", aria_describedby = "emailHelp" })
+        @Html.ValidationMessageFor(m => m.CardNumber, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CardName, "Nom de la carte")
+        @Html.TextBoxFor(m => m.CardName, new { @class = "form-control", id = "cardname", maxlength = "50" })
+        @Html.ValidationMessageFor(m => m.CardName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label>Date d'expiration</label>
+        <div class="d-flex align-items-center">
+            @Html.DropDownListFor(m => m.ExpirationMonth, Enumerable.Range(1, 12).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { @class = "form-control w-auto me-2" })
+            <span>/</span>
+            @Html.DropDownListFor(m => m.ExpirationYear, Enumerable.Range(DateTime.Now.Year, 21).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), new { @class = "form-control w-auto ms-2" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CVV, "Code de sécurité (CVV)")
+        @Html.PasswordFor(m => m.CVV, new { @class = "form-control", id = "cryptosecurity", minlength = "3", maxlength = "4" })
+        @Html.ValidationMessageFor(m => m.CVV, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Payer</button>
+}

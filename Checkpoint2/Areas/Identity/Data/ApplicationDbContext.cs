@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Author> Authors { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<CartArticle> CartArticles { get; set; }
+    public DbSet<BuyedArticle> BuyedArticles { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
