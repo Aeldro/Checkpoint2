@@ -27,5 +27,25 @@ namespace Checkpoint2.Repositories
                 throw new DatabaseException();
             }
         }
+
+        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        {
+            try
+            {
+                List<Order> userOrders = await _context.Orders
+                .Where(el => el.ApplicationUserId == userId)
+                .Include(el => el.Articles)
+                .ThenInclude(article => article.Book)
+                .Include(el => el.Articles)
+                .ThenInclude(article => article.Payer)
+                .ToListAsync();
+
+                return userOrders;
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new DatabaseException();
+            }
+        }
     }
 }

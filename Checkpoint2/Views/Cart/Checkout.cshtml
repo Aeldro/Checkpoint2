@@ -16,12 +16,7 @@
         <tbody>
             @foreach (CartArticle article in Model)
             {
-                <tr>
-                    <td>@article.Book.Title</td>
-                    <td>@article.Quantity</td>
-                    <td>@article.Book.Price€</td>
-                    <td>@(article.Quantity * article.Book.Price)€</td>
-                </tr>
+                @Html.Partial("_CheckoutRowArticle", article)
             }
         </tbody>
         <tfoot>

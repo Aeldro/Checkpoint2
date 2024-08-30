@@ -19,7 +19,7 @@ namespace Checkpoint2.Repositories
         {
             try
             {
-                CartArticle? existingArticle = await _context.CartArticles.FirstOrDefaultAsync(el => el.BookId == newArticle.BookId && el.ApplicationUserId == newArticle.ApplicationUserId);
+                CartArticle? existingArticle = await _context.CartArticles.FirstOrDefaultAsync(el => el.BookId == newArticle.BookId && el.ApplicationUserId == newArticle.ApplicationUserId && el.IsOrdered == false);
 
                 if (existingArticle is not null) existingArticle.Quantity += newArticle.Quantity;
                 else
@@ -53,7 +53,7 @@ namespace Checkpoint2.Repositories
         {
             try
             {
-                List<CartArticle> cartArticles = await _context.CartArticles.Where(el => el.ApplicationUserId == userId && !el.IsOrdered).Include(el => el.Book).ToListAsync();
+                List<CartArticle> cartArticles = await _context.CartArticles.Where(el => el.ApplicationUserId == userId && el.IsOrdered == false).Include(el => el.Book).ToListAsync();
                 return cartArticles;
             }
             catch (SqlException sqlEx)

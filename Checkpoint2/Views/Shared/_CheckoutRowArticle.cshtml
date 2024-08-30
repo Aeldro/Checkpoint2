@@ -1,0 +1,8 @@
+﻿@model Checkpoint2.Models.Entities.CartArticle
+
+<tr>
+    <td>@Model.Book.Title</td>
+    <td>@Model.Quantity</td>
+    <td>@Model.Book.Price€</td>
+    <td>@(Model.Quantity * Model.Book.Price)€</td>
+</tr>
