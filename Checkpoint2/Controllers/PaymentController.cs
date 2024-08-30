@@ -28,12 +28,10 @@ namespace Checkpoint2.Controllers
         {
             try
             {
-                var userId = _userManager.GetUserId(User);
-                if (userId is null) return NotFound();
+                //var userId = _userManager.GetUserId(User);
+                //if (userId is null) return NotFound();
 
-                List<CartArticle> cartArticles = await _cartRepository.GetCartArticlesByUserIdAsync(userId);
-
-                ViewBag.Total = cartArticles.Sum(el => el.Quantity * el.Book.Price);
+                //List<CartArticle> cartArticles = await _cartRepository.GetCartArticlesByUserIdAsync(userId);
 
                 return View();
             }
@@ -63,14 +61,14 @@ namespace Checkpoint2.Controllers
                 var userId = _userManager.GetUserId(User);
                 if (userId is null) return NotFound();
 
-                await _cartRepository.TransferArticlesByUserId(userId);
+                List<CartArticle> cartArticles = await _cartRepository.GetCartArticlesByUserIdAsync(userId);
 
-                List<BuyedArticle> buyedArticles = await _ordersRepository.GetBuyedArticlesByUserIdAsync(userId);
+                await _cartRepository.SetArticlesToOrderedByUserId(userId);
 
                 Order order = new Order
                 {
                     ApplicationUserId = userId,
-                    Articles = buyedArticles,
+                    Articles = cartArticles,
                     Date = DateTime.Now
                 };
 

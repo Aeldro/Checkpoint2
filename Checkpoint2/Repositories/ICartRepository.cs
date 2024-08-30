@@ -10,6 +10,6 @@ namespace Checkpoint2.Repositories
         Task RemoveArticleAsync(CartArticle articleToDelete);
         Task UpdateQuantityArticleAsync(int articleId, int quantity);
         Task RemoveArticleByUserId(string userId);
-        Task TransferArticlesByUserId(string userId);
+        Task SetArticlesToOrderedByUserId(string userId);
     }
 }

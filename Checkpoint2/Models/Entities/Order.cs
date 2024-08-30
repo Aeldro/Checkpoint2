@@ -11,7 +11,7 @@ namespace Checkpoint2.Models.Entities
         [Required]
         public string ApplicationUserId { get; set; }
         public ApplicationUser Payer { get; set; }
-        public List<BuyedArticle> Articles { get; set; } = new List<BuyedArticle>();
+        public List<CartArticle> Articles { get; set; } = new List<CartArticle>();
 
         [Required]
         public DateTime Date { get; set; }

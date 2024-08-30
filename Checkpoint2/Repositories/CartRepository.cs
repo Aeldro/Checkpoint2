@@ -53,7 +53,7 @@ namespace Checkpoint2.Repositories
         {
             try
             {
-                List<CartArticle> cartArticles = await _context.CartArticles.Where(el => el.ApplicationUserId == userId).Include(el => el.Book).ToListAsync();
+                List<CartArticle> cartArticles = await _context.CartArticles.Where(el => el.ApplicationUserId == userId && !el.IsOrdered).Include(el => el.Book).ToListAsync();
                 return cartArticles;
             }
             catch (SqlException sqlEx)
@@ -95,24 +95,13 @@ namespace Checkpoint2.Repositories
             }
         }
 
-        public async Task TransferArticlesByUserId(string userId)
+        public async Task SetArticlesToOrderedByUserId(string userId)
         {
             try
             {
                 foreach (CartArticle cartArticle in _context.CartArticles)
                 {
-                    if (cartArticle.ApplicationUserId == userId)
-                    {
-                        BuyedArticle buyedArticle = new BuyedArticle
-                        {
-                            Id = cartArticle.Id,
-                            ApplicationUserId = cartArticle.ApplicationUserId,
-                            BookId = cartArticle.BookId,
-                            Quantity = cartArticle.Quantity,
-                        };
-                        _context.BuyedArticles.AddAsync(buyedArticle);
-                        _context.CartArticles.Remove(cartArticle);
-                    }
+                    if (cartArticle.ApplicationUserId == userId) cartArticle.IsOrdered = true;
                 }
 
                 await _context.SaveChangesAsync();

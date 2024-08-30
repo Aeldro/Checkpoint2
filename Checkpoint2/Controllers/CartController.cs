@@ -38,7 +38,8 @@ namespace Checkpoint2.Controllers
                 {
                     BookId = bookId,
                     ApplicationUserId = userId,
-                    Quantity = 1
+                    Quantity = 1,
+                    IsOrdered = false
                 };
 
                 await _cartRepository.AddArticleAsync(newArticle);
@@ -108,7 +109,7 @@ namespace Checkpoint2.Controllers
                     var userId = _userManager.GetUserId(User);
                     if (userId is null) return NotFound();
 
-                    List<CartArticle> cartArticles = await _cartRepository.GetCartArticlesByUserIdAsync(userId);
+                    //List<CartArticle> cartArticles = await _cartRepository.GetCartArticlesByUserIdAsync(userId);
 
                     return Json(new { success = true });
                 }

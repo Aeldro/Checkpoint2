@@ -18,5 +18,8 @@ namespace Checkpoint2.Models.Entities
 
         [Required]
         public int Quantity { get; set; }
+
+        [Required]
+        public bool IsOrdered { get; set; }
     }
 }

@@ -27,18 +27,5 @@ namespace Checkpoint2.Repositories
                 throw new DatabaseException();
             }
         }
-
-        public async Task<List<BuyedArticle>> GetBuyedArticlesByUserIdAsync(string userId)
-        {
-            try
-            {
-                List<BuyedArticle> buyedArticles = await _context.BuyedArticles.Where(el => el.ApplicationUserId == userId).Include(el => el.Book).ToListAsync();
-                return buyedArticles;
-            }
-            catch (SqlException sqlEx)
-            {
-                throw new DatabaseException();
-            }
-        }
     }
 }
